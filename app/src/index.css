@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* shadcn tokens remapped to the Northstar warm-neutral brand */
+    --background: 40 33% 97%;          /* paper #FAF8F4 */
+    --foreground: 40 11% 10%;          /* ink #1D1B17 */
+    --card: 0 0% 100%;
+    --card-foreground: 40 11% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 40 11% 10%;
+    --primary: 174 73% 20%;            /* accent #0E5A50 */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 40 22% 94%;           /* surface-2 #F4F1EA */
+    --secondary-foreground: 40 11% 10%;
+    --muted: 40 22% 94%;
+    --muted-foreground: 42 9% 33%;     /* ink-2 #5B564C */
+    --accent: 174 47% 91%;             /* accent-tint #E3EFEB */
+    --accent-foreground: 174 73% 20%;
+    --destructive: 12 63% 46%;         /* conflict #C2492B */
+    --destructive-foreground: 0 0% 98%;
+    --border: 40 22% 87%;              /* line #E7E2D6 */
+    --input: 40 22% 87%;
+    --ring: 174 73% 20%;               /* focus ring = accent */
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    @apply bg-paper text-ink font-sans text-[14px] leading-5;
+    font-feature-settings: "cv11", "ss01";
+  }
+  /* Numeric data uses tabular figures */
+  .tnum,
+  table,
+  .font-mono {
+    font-feature-settings: "tnum";
+  }
+  /* Keyboard-first focus: 2px accent ring with 2px offset, always visible */
+  :focus-visible {
+    outline: 2px solid #0E5A50;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  ::selection {
+    background: #e3efeb;
+  }
+}
+
+@layer components {
+  /* Card spec from design.md §4 */
+  .ns-card {
+    @apply rounded-xl border border-line bg-surface shadow-card;
+  }
+  /* Uppercase meta label (11px, tracking 0.04em, ink-3) */
+  .ns-meta {
+    @apply text-[11px] font-medium uppercase tracking-[0.04em] text-ink-3;
+  }
+}
+
+@layer utilities {
+  .motion-safe-only {
+    /* respects prefers-reduced-motion via Tailwind's motion-safe variant */
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.12s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.12s !important;
+  }
+}

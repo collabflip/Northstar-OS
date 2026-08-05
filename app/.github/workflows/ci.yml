@@ -1,0 +1,117 @@
+name: ci
+
+on:
+  push:
+    branches: [main, master, final-build, "release-*"]
+  pull_request:
+    branches: [main, master, final-build, "release-*"]
+
+# Release-mandate CI for Northstar SellerOS (P1).
+# Full gate chain: secret scan → fictional-data gate → typecheck (x2) → lint →
+# migration proof → DB-backed tests against a real MySQL service → evals →
+# build → npm audit (high/critical).
+#
+# Secrets policy: EVERY env value below is an obviously fake, test-only constant
+# (prefixes ci-test / not-real / localhost). No real credentials are used or
+# needed — the database is the ephemeral mysql:8 service started below, the model
+# provider defaults to the deterministic mock, and OAuth is never exercised live.
+#
+# NOTE on schema setup: db:push is PROHIBITED in CI — it is not idempotent on
+# an existing TiDB database (it can prompt to truncate audit_log; see
+# docs/deployment-guide.md §1). CI validates the COMMITTED migrations instead:
+# scripts/ci-migrate-proof.mjs runs `npm run db:migrate` twice against the
+# fresh ephemeral mysql service and proves an inserted audit_log row survives
+# the no-op second run. Never point this workflow at a shared/persistent
+# database.
+#
+# NOTE on Node version: react-router@8.3.0 engines require node>=22.22.0, so
+# setup-node pins 22.22.0 below (both the npm cache key runtime and the
+# toolchain running every gate).
+#
+# NOTE on MySQL vs TiDB: the target platform is TiDB; CI runs mysql:8. The
+# Drizzle schema and all live-DB suites are plain MySQL-compatible today (no
+# TiDB-specific features are exercised). If TiDB-specific behavior is ever
+# adopted, this service must be swapped for a TiDB image — flagged honestly here.
+
+env:
+  DATABASE_URL: mysql://root:ci-root@127.0.0.1:3306/northstar_ci
+  APP_ID: ci-test-app-id
+  APP_SECRET: ci-test-secret-not-real-0000
+  KIMI_CLIENT_ID: ci-test
+  KIMI_CLIENT_SECRET: ci-test
+  KIMI_REDIRECT_URI: http://localhost:3000/api/auth/kimi/callback
+  KIMI_AUTH_URL: https://ci-test.invalid
+  KIMI_OPEN_URL: https://ci-test.invalid
+  SEED_DEMO: "true"
+  NODE_ENV: test
+
+jobs:
+  gates:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: ci-root
+          MYSQL_DATABASE: northstar_ci
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # react-router 8.3.0 engines require >=22.22.0 — pin exactly.
+          node-version: '22.22.0'
+          cache: npm
+
+      - name: install
+        run: npm ci
+
+      - name: lockfile-host gate
+        # scripts/lockfile-host-gate.mjs lands via the rel2-portability merge;
+        # the integrator merges both branches. Fails if the committed lockfile
+        # references anything other than the public npm registry host.
+        run: node scripts/lockfile-host-gate.mjs
+
+      - name: secret scan (committed-secret gate)
+        run: node scripts/secret-scan.mjs
+
+      - name: fictional-data gate
+        # scripts/fictional-data-gate.mjs is on master (release-decon merged).
+        run: node scripts/fictional-data-gate.mjs
+
+      - name: typecheck (project references)
+        run: npm run check
+
+      - name: typecheck (noEmit, full)
+        run: npx tsc --noEmit
+
+      - name: lint
+        run: npm run lint
+
+      - name: migration proof
+        # db:push is prohibited in CI (TiDB truncate-prompt hazard,
+        # docs/deployment-guide.md warning). Validate the committed migrations
+        # instead: fresh CI mysql service DB → migrate ×2 + audit-row survival
+        # proven by scripts/ci-migrate-proof.mjs.
+        run: node scripts/ci-migrate-proof.mjs
+
+      - name: test (unit + DB-backed suites against the mysql service — no skips)
+        run: npm run test
+
+      - name: evals (golden scenarios + simulator — needs DATABASE_URL from the mysql service env)
+        run: npm run evals
+
+      - name: build
+        run: npm run build
+
+      - name: audit (fail on high/critical, production deps only)
+        run: npm audit --omit=dev --audit-level=high

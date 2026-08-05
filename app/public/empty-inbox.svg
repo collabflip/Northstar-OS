@@ -1,0 +1,14 @@
+<svg width="320" height="240" viewBox="0 0 320 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Empty state: open document tray with a four-point star above -->
+  <!-- Tray back -->
+  <path d="M80 96 H240 L228 156 H92 Z"
+        stroke="#E7E2D6" stroke-width="2" stroke-linejoin="round" fill="none"/>
+  <!-- Tray front (open, lower) -->
+  <path d="M64 128 H256 L240 180 H80 Z"
+        stroke="#D5CFC0" stroke-width="2" stroke-linejoin="round" fill="none"/>
+  <!-- Tray front lip cutout -->
+  <path d="M136 156 H184" stroke="#D5CFC0" stroke-width="2" stroke-linecap="round"/>
+  <!-- Four-point star above tray -->
+  <path d="M160 34 L164 50 L180 54 L164 58 L160 74 L156 58 L140 54 L156 50 Z"
+        stroke="#0E5A50" stroke-width="2" stroke-linejoin="round" fill="none"/>
+</svg>

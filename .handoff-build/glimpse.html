@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Northstar SellerOS — A Glimpse</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+mermaid.initialize({
+  startOnLoad: true, theme: 'neutral', securityLevel: 'strict',
+  themeVariables: { primaryColor: '#eef4f9', primaryTextColor: '#2b3a4a', primaryBorderColor: '#8fb0cc', lineColor: '#7d99b4' },
+  flowchart: { useMaxWidth: true }
+});
+</script>
+<style>
+  body {
+    margin: 0; padding: 0;
+    string-set: doctitle "Northstar SellerOS — A Glimpse";
+    font-family: "Noto Sans", "DejaVu Sans", sans-serif;
+    font-size: 10.5pt; line-height: 1.62; color: #2b3a4a;
+    text-align: left;
+  }
+  @page {
+    size: A4; margin: 2.2cm 2.1cm;
+    @bottom-center { content: counter(page); font-size: 8.5pt; color: #9aa7b3; font-family: "Noto Sans", sans-serif; }
+  }
+  @page :first { margin: 0; @bottom-center { content: none; } }
+
+  /* ---------- cover: soft blocks ---------- */
+  .cover { width: 210mm; height: 297mm; margin: 0; position: relative; overflow: hidden; page-break-after: always; background: #f7fafc; }
+  .cb1 { position: absolute; top: -30mm; right: -35mm; width: 130mm; height: 130mm; background: #dce8f2; border-radius: 18mm; }
+  .cb2 { position: absolute; top: 42mm; right: -18mm; width: 74mm; height: 74mm; background: #b9d0e4; border-radius: 14mm; opacity: .85; }
+  .cb3 { position: absolute; top: 108mm; right: 26mm; width: 30mm; height: 30mm; background: #c96f4a; border-radius: 7mm; opacity: .9; }
+  .cb4 { position: absolute; bottom: -42mm; left: -40mm; width: 120mm; height: 120mm; background: #e7eef5; border-radius: 18mm; }
+  .cb5 { position: absolute; bottom: 34mm; left: 30mm; width: 22mm; height: 22mm; background: #8fb0cc; border-radius: 6mm; opacity: .8; }
+  .cover-inner { position: absolute; top: 58mm; left: 20mm; right: 70mm; }
+  .cover-kicker { font-size: 10pt; letter-spacing: 4px; font-weight: 700; color: #c96f4a; margin-bottom: 8mm; }
+  .cover-title { font-size: 34pt; font-weight: 800; color: #24425e; line-height: 1.14; margin-bottom: 7mm; }
+  .cover-tag { font-size: 13.5pt; color: #4d6076; line-height: 1.55; }
+  .cover-band { position: absolute; bottom: 52mm; left: 20mm; right: 20mm; background: #ffffff; border-left: 2.2mm solid #c96f4a; padding: 5mm 7mm; font-size: 10.5pt; color: #41546a; line-height: 1.6; }
+  .cover-foot { position: absolute; bottom: 22mm; left: 20mm; right: 20mm; font-size: 9pt; color: #8b98a5; }
+
+  /* ---------- content ---------- */
+  h1 { font-size: 17pt; font-weight: 800; color: #24425e; margin: 0 0 4mm 0; page-break-after: avoid; }
+  h1 .no { color: #c96f4a; }
+  h2 { font-size: 12pt; font-weight: 700; color: #2f5d8a; margin: 5.5mm 0 2mm 0; page-break-after: avoid; }
+  p { margin: 0 0 3mm 0; }
+  .lead { font-size: 11.5pt; color: #41546a; line-height: 1.65; }
+  .page { page-break-after: always; }
+  .page:last-child { page-break-after: auto; }
+
+  .pillars { margin: 4mm 0; }
+  .pillar { border-left: 1.6mm solid #2f5d8a; background: #f2f6fa; padding: 3mm 5mm; margin-bottom: 3.5mm; page-break-inside: avoid; }
+  .pillar.warm { border-left-color: #c96f4a; background: #faf4f0; }
+  .pillar .pt { font-weight: 700; color: #24425e; font-size: 10.8pt; }
+  .pillar p { margin: 1mm 0 0 0; font-size: 10pt; color: #4d6076; }
+
+  .figure { text-align: center; margin: 4mm 0; page-break-inside: avoid; }
+  .figure img { max-width: 92%; }
+  .figcap { font-size: 8.8pt; color: #8b98a5; margin-top: 1mm; text-align: center; }
+
+  .mermaid { max-width: 100%; text-align: center; margin: 3mm 0 1mm 0; }
+
+  .steps { margin: 3mm 0; }
+  .step { display: flex; margin-bottom: 3.6mm; page-break-inside: avoid; }
+  .step .n { flex: 0 0 9mm; height: 9mm; background: #2f5d8a; color: #fff; font-weight: 800; font-size: 12pt; display: flex; align-items: center; justify-content: center; border-radius: 2.5mm; margin-right: 4mm; }
+  .step .st { font-weight: 700; color: #24425e; }
+  .step p { margin: 0.5mm 0 0 0; font-size: 10pt; color: #4d6076; }
+
+  .honest { background: #eef4f9; padding: 3.5mm 5mm; margin: 4mm 0; font-size: 10pt; color: #41546a; page-break-inside: avoid; }
+  .honest b { color: #24425e; }
+  .closing { margin-top: 6mm; padding: 5mm 6mm; background: #24425e; color: #eaf1f7; font-size: 11pt; line-height: 1.6; page-break-inside: avoid; }
+  .closing b { color: #f4c9b2; }
+  .small { font-size: 8.8pt; color: #8b98a5; }
+</style>
+</head>
+<body>
+
+<!-- ================= COVER ================= -->
+<div class="cover">
+  <div class="cb1"></div><div class="cb2"></div><div class="cb3"></div><div class="cb4"></div><div class="cb5"></div>
+  <div class="cover-inner">
+    <div class="cover-kicker">A GLIMPSE &nbsp;·&nbsp; PRODUCT BRIEFING</div>
+    <div class="cover-title">Northstar<br>SellerOS</div>
+    <div class="cover-tag">Seller-side real-estate intelligence, built for Canada.<br>Autonomous on the inside. Human-approved on the outside.</div>
+  </div>
+  <div class="cover-band">
+    Bilingual EN / fr-CA &nbsp;·&nbsp; Ontario-first &nbsp;·&nbsp; consent-first &nbsp;·&nbsp; every action gated, logged, and explainable.<br>
+    Now opening a <b>supervised demo pilot</b>.
+  </div>
+  <div class="cover-foot">A five-minute read. No technical background needed. Demo data is fictional; nothing here is a production claim.</div>
+</div>
+
+<!-- ================= PAGE 2: THE IDEA ================= -->
+<div class="page">
+  <h1><span class="no">01 —</span> The idea, in one breath</h1>
+  <p class="lead">Selling a home is a chain of high-stakes decisions — pricing, positioning, offers, conditions, deadlines. Northstar SellerOS is an operating system that lets software agents do the heavy lifting on that chain, while a licensed human keeps both hands on the wheel.</p>
+  <p>It is built specifically for Canadian real estate: bilingual from the ground up (English and fr-CA), Ontario-first in its rules, and consent-first in its data. It is not a chatbot bolted onto a spreadsheet — it is a governed workspace where autonomous cores prepare the work and people approve the moves.</p>
+
+  <h2>What it actually does for a seller</h2>
+  <div class="pillars">
+    <div class="pillar"><div class="pt">Understands the property</div><p>Builds a living dossier: facts, evidence, comparables, and a defensible valuation narrative.</p></div>
+    <div class="pillar"><div class="pt">Shapes the strategy</div><p>Proposes pricing and positioning, with the reasoning attached — not just a number.</p></div>
+    <div class="pillar"><div class="pt">Reads every offer</div><p>Extracts the terms that matter and lines offers up side by side, so trade-offs are visible at a glance.</p></div>
+    <div class="pillar"><div class="pt">Keeps the deal moving</div><p>Turns an accepted offer into a tracked task plan — deadlines, conditions, and owners, all in one place.</p></div>
+  </div>
+
+  <div class="honest"><b>The honest part:</b> the system proposes; humans decide. Nothing leaves the building — no message, no document, no commitment — without a person's explicit approval.</div>
+</div>
+
+<!-- ================= PAGE 3: HOW IT WORKS ================= -->
+<div class="page">
+  <h1><span class="no">02 —</span> How one action travels</h1>
+  <p class="lead">Every meaningful action follows the same guarded path. This is the whole trick, and it takes one diagram:</p>
+
+  <div class="mermaid">
+flowchart LR
+    A[Agent core<br>prepares an action] --> B{Policy engine<br>44 rules}
+    B -- allowed, low risk --> C[Queued in the<br>outbox]
+    B -- needs a human --> D[Approval desk<br>approve or reject]
+    B -- not allowed --> E[Blocked and<br>logged]
+    D -- approved --> C
+    C --> F[Action happens]
+    F --> G[Audit trail<br>sealed forever]
+    E --> G
+    D -- rejected --> G
+</div>
+  <p class="figcap">Whether an action sails through, waits for a signature, or gets stopped — all three endings are recorded in the same tamper-evident trail.</p>
+
+  <h2>Why the fence is the feature</h2>
+  <div class="pillars">
+    <div class="pillar warm"><div class="pt">Consent is a hard rule, not a setting</div><p>If consent has expired, the send simply does not happen — the system blocks it and writes down why. That behaviour is part of the demo, not a promise slide.</p></div>
+    <div class="pillar warm"><div class="pt">Approvals can't be replayed</div><p>One approval, one use. Two people clicking at the same moment still produce exactly one decision.</p></div>
+    <div class="pillar warm"><div class="pt">Every brokerage is a sealed room</div><p>Tenants can't see or touch each other's data — enforced in the data layer and covered by dedicated tests.</p></div>
+  </div>
+</div>
+
+<!-- ================= PAGE 4: PROOF ================= -->
+<div class="page">
+  <h1><span class="no">03 —</span> Trust, but verified</h1>
+  <p class="lead">Anyone can demo a confident prototype. So the pilot was held to a simple standard: if it can't be executed, it doesn't get claimed. A few numbers from the verification battery:</p>
+
+  <div class="figure">
+    <img src="quality-bars.png" alt="Horizontal bar chart of verification numbers">
+    <div class="figcap">Executed, repeatable checks — run twice end-to-end, plus independent re-verification from a fresh copy of the release.</div>
+  </div>
+
+  <p>Behind those bars sit a few deliberate engineering choices: an <b>append-only audit log</b> where each entry is cryptographically chained to the one before it; an <b>outbox</b> that guarantees no message is ever sent twice, even across a crash and restart; and a rule that <b>tests may never be loosened to make a result look green</b>.</p>
+
+  <div class="honest"><b>What the numbers don't mean:</b> they don't make it a finished product. They mean the foundation under the pilot is measured, not vibes.</div>
+</div>
+
+<!-- ================= PAGE 5: TODAY VS TOMORROW ================= -->
+<div class="page">
+  <h1><span class="no">04 —</span> What's real today, what's next</h1>
+  <p class="lead">The vision is a fleet of twenty specialised agent cores. Today, three are live and demonstrable — and we say so plainly, because a pilot built on honesty scales better than one built on theatre.</p>
+
+  <div class="figure">
+    <img src="fleet-donut.png" alt="Donut chart: 3 of 20 agent cores live today, 17 on the roadmap">
+    <div class="figcap">Live today: lead conversations, offer extraction, transaction coordination. The rest is roadmap — sequenced, not vapour.</div>
+  </div>
+
+  <h2>Deliberately not claimed</h2>
+  <p class="small" style="font-size:10pt; color:#4d6076;">Live integrations with external services (today they are safe mocks) · legal or regulatory certification · unsupervised autonomy · production readiness. When any of these change, it will be announced with evidence — the same standard this document is held to.</p>
+</div>
+
+<!-- ================= PAGE 6: ADOPTION ================= -->
+<div class="page">
+  <h1><span class="no">05 —</span> Trying it costs an afternoon, not a quarter</h1>
+  <p class="lead">The pilot is designed for low bandwidth. No data migration, no integration project, no training programme — a supervised sandbox with fictional demo data.</p>
+
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div><div class="st">Sign in and meet Harbourline Realty</div><p>A fully fictional brokerage is pre-loaded — listings, contacts, offers, the works. Explore freely; nothing is real and nothing can leak.</p></div></div>
+    <div class="step"><div class="n">2</div><div><div class="st">Walk one deal end to end</div><p>Lead conversation → dossier → valuation → strategy → offers compared → transaction plan. Watch the approval desk and the blocked-message demo on the way.</p></div></div>
+    <div class="step"><div class="n">3</div><div><div class="st">Tell us where it earned trust — and where it didn't</div><p>The pilot's output is your verdict. What gets wired next is decided by what supervised users actually value.</p></div></div>
+  </div>
+
+  <div class="closing">
+    <b>The short version:</b> autonomous where it's safe, human where it matters, honest about where it stands. If that sounds like the way real-estate software should behave — come see it work.
+  </div>
+
+  <p class="small" style="margin-top:5mm;">Northstar SellerOS · Demo pilot · Supervised Ontario testing with fictional data · Human approval gates on every external action · Bilingual EN / fr-CA.</p>
+</div>
+
+</body>
+</html>

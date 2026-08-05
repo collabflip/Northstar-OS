@@ -1,0 +1,18 @@
+# Dependency audit — 2026-08-03 UTC, lockfile registry.npmjs.org
+## npm audit --omit=dev (production)
+found 0 vulnerabilities
+
+## npm audit (full, incl. dev)
+Severity: moderate
+Severity: moderate
+6 moderate severity vulnerabilities
+
+## Residual (6 moderate, dev-only, no upstream fix):
+@hono/node-server  <2.0.5
+Severity: moderate
+--
+esbuild  <=0.24.2
+Severity: moderate
+--
+
+6 moderate severity vulnerabilities

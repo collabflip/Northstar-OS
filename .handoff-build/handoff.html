@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Northstar SellerOS — Full-Picture Handoff Briefing</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+mermaid.initialize({
+  startOnLoad: true, theme: 'neutral', securityLevel: 'strict',
+  themeVariables: { primaryColor: '#f5f5f5', primaryTextColor: '#333', primaryBorderColor: '#999', lineColor: '#666' },
+  flowchart: { useMaxWidth: true }
+});
+</script>
+<style>
+  body {
+    margin: 0; padding: 0;
+    string-set: doctitle "Northstar SellerOS — Full-Picture Handoff Briefing (v1.0.0-pilot)";
+    font-family: "Noto Serif", Georgia, serif;
+    font-size: 10.5pt; line-height: 1.6; color: #333;
+    text-align: justify; text-align-last: left;
+  }
+  @page {
+    size: A4; margin: 2.4cm 2cm 2.2cm 2cm;
+    @top-center { content: string(doctitle); font-family: "Noto Serif", serif; font-size: 8pt; color: #888; }
+    @bottom-center { content: counter(page); font-family: "Noto Serif", serif; font-size: 9pt; color: #666; }
+  }
+  @page :first { margin: 0; @top-center { content: none; } @bottom-center { content: none; } }
+  @page toc { @top-center { content: none; } }
+
+  /* ---------- cover (Swiss style) ---------- */
+  .cover { width: 210mm; height: 297mm; margin: 0; position: relative; overflow: hidden; page-break-after: always; background: #ffffff; }
+  .cover .grid-top { position: absolute; top: 0; left: 0; width: 100%; height: 10mm; background: #1f3a5f; }
+  .cover .grid-left { position: absolute; top: 0; left: 0; width: 10mm; height: 100%; background: #1f3a5f; }
+  .cover .accent { position: absolute; top: 10mm; left: 10mm; width: 34mm; height: 3.2mm; background: #b3543f; }
+  .cover .rule-h1 { position: absolute; top: 60mm; left: 20mm; right: 20mm; border-top: 0.4pt solid #c9c9c9; }
+  .cover .rule-h2 { position: absolute; top: 150mm; left: 20mm; right: 20mm; border-top: 0.4pt solid #c9c9c9; }
+  .cover .corner { position: absolute; bottom: 14mm; right: 14mm; width: 16mm; height: 16mm; border: 1.4pt solid #1f3a5f; }
+  .cover .corner-inner { position: absolute; bottom: 17mm; right: 17mm; width: 16mm; height: 16mm; border: 0.5pt solid #9db3c8; }
+  .cover-kicker { position: absolute; top: 30mm; left: 20mm; font-size: 10pt; letter-spacing: 3.5px; color: #b3543f; font-weight: 700; }
+  .cover-title { position: absolute; top: 42mm; left: 20mm; right: 20mm; font-size: 30pt; font-weight: 700; color: #1f3a5f; line-height: 1.18; text-align: left; }
+  .cover-sub { position: absolute; top: 96mm; left: 20mm; right: 20mm; font-size: 13pt; color: #555; line-height: 1.5; text-align: left; }
+  .cover-verdict { position: absolute; top: 152mm; left: 20mm; right: 20mm; border-left: 2.5mm solid #1f3a5f; padding: 4mm 0 4mm 6mm; font-size: 10.5pt; color: #333; line-height: 1.55; text-align: left; background: #f7f9fb; }
+  .cover-verdict b { color: #1f3a5f; }
+  .cover-meta { position: absolute; bottom: 40mm; left: 20mm; right: 20mm; font-size: 10pt; color: #444; line-height: 1.9; text-align: left; }
+  .cover-meta .k { color: #999; display: inline-block; width: 42mm; }
+  .cover-foot { position: absolute; bottom: 16mm; left: 20mm; font-size: 8.5pt; color: #999; }
+
+  /* ---------- TOC ---------- */
+  .toc-page { page: toc; page-break-after: always; }
+  .toc-title { font-size: 17pt; font-weight: 700; color: #1f3a5f; border-bottom: 1.5pt solid #1f3a5f; padding-bottom: 2mm; margin: 0 0 6mm 0; }
+  ul.toc { list-style: none; padding: 0; margin: 0; }
+  ul.toc li { margin: 2.4mm 0; font-size: 10.5pt; }
+  ul.toc li.l2 { margin-left: 7mm; font-size: 9.5pt; color: #555; }
+  ul.toc a { color: #333; text-decoration: none; display: block; position: relative; }
+  ul.toc a::after { content: target-counter(attr(href), page); position: absolute; right: 0; color: #777; }
+
+  /* ---------- body ---------- */
+  h1 { font-size: 16pt; color: #1f3a5f; border-left: 3mm solid #1f3a5f; padding-left: 4mm; margin: 9mm 0 4mm 0; page-break-after: avoid; }
+  h1.first { margin-top: 0; }
+  h2 { font-size: 12.5pt; color: #1f3a5f; margin: 6mm 0 2.5mm 0; page-break-after: avoid; }
+  p { margin: 0 0 2.8mm 0; }
+  ul, ol { margin: 1mm 0 3mm 0; padding-left: 6mm; }
+  li { margin-bottom: 1.2mm; }
+  b, strong { color: #222; }
+  code { font-family: "DejaVu Sans Mono", monospace; font-size: 8.6pt; background: #f5f5f5; padding: 0 1.2mm; word-break: break-word; }
+  pre { background: #f5f5f5; padding: 3mm 4mm; font-family: "DejaVu Sans Mono", monospace; font-size: 8.2pt; line-height: 1.45; white-space: pre-wrap; word-wrap: break-word; overflow-x: auto; max-width: 100%; box-sizing: border-box; page-break-inside: avoid; }
+  pre code { background: none; padding: 0; }
+
+  .vbox { border-left: 1.2mm solid #1f3a5f; background: #f7f9fb; padding: 3mm 4mm; margin: 3.5mm 0; page-break-inside: avoid; }
+  .vbox.warn { border-left-color: #b3543f; background: #fbf7f5; }
+  .vbox .vt { font-weight: 700; color: #1f3a5f; }
+  .vbox.warn .vt { color: #b3543f; }
+
+  table.tl { width: 100%; max-width: 100%; border-collapse: collapse; margin: 3mm 0 4.5mm 0; font-size: 9.2pt; border-top: 1.4pt solid #333; border-bottom: 1.4pt solid #333; overflow-x: auto; }
+  table.tl thead { display: table-header-group; }
+  table.tl thead th { border-bottom: 0.9pt solid #333; text-align: left; padding: 1.6mm 2mm; font-weight: 700; color: #222; }
+  table.tl tbody td { padding: 1.5mm 2mm; vertical-align: top; border-bottom: 0.3pt solid #ddd; }
+  table.tl tr { page-break-inside: avoid; }
+  table.tl caption { caption-side: top; text-align: left; font-size: 9.2pt; color: #555; margin-bottom: 1.6mm; }
+  table.tl caption::before { content: attr(data-label) ".  "; font-weight: 700; color: #333; }
+
+  figure { margin: 4mm 0; text-align: center; page-break-inside: avoid; max-width: 100%; }
+  figure img { max-width: 88%; height: auto; }
+  figcaption { font-size: 9.2pt; color: #555; margin-top: 1.6mm; text-align: center; }
+  figcaption::before { content: attr(data-label) ".  "; font-weight: 700; color: #333; }
+
+  .mermaid { max-width: 100%; text-align: center; margin: 3mm 0; }
+  a { color: #1f3a5f; text-decoration: none; word-break: break-all; }
+  .small { font-size: 9pt; color: #666; }
+  .mono { font-family: "DejaVu Sans Mono", monospace; font-size: 8.6pt; }
+</style>
+</head>
+<body>
+
+<!-- ================= COVER ================= -->
+<div class="cover">
+  <div class="grid-top"></div>
+  <div class="grid-left"></div>
+  <div class="accent"></div>
+  <div class="rule-h1"></div>
+  <div class="rule-h2"></div>
+  <div class="corner"></div>
+  <div class="corner-inner"></div>
+  <div class="cover-kicker">RELEASE HANDOFF &nbsp;·&nbsp; ENGINEERING BRIEFING</div>
+  <div class="cover-title">Northstar SellerOS<br>Full-Picture Handoff Briefing</div>
+  <div class="cover-sub">Bilingual (EN / fr-CA), Canada-native autonomous real-estate operating system —<br>what it is, what was proven, what is still gated, and exactly what happens next.</div>
+  <div class="cover-verdict">
+    <b>Release verdict:</b> Demo Pilot Deployable — suitable only for supervised Ontario testing using unmistakably fictional data, human approval gates, and mock integrations. <b>GATED: WAITING_FOR_OWNER_ROTATION.</b> Not production-ready.
+  </div>
+  <div class="cover-meta">
+    <div><span class="k">Release</span> northstar-selleros @ 1.0.0-pilot</div>
+    <div><span class="k">Freeze tag</span> v1.0.0-pilot (commit c63286a)</div>
+    <div><span class="k">Date</span> 2026-08-03</div>
+    <div><span class="k">Prepared by</span> Release engineering — for colleague handoff</div>
+    <div><span class="k">Classification</span> Internal — fictional demo data only; no real personal information</div>
+  </div>
+  <div class="cover-foot">This document contains no credential values and no real personal data. All evidence cited is reproduced in the release package (release/ folder + DEPLOYMENT.md).</div>
+</div>
+
+<!-- ================= TOC ================= -->
+<div class="toc-page">
+  <div class="toc-title">Contents</div>
+  <ul class="toc">
+    <li><a href="#sec1">1&nbsp;&nbsp;Executive summary</a></li>
+    <li><a href="#sec2">2&nbsp;&nbsp;What the system is</a></li>
+    <li class="l2"><a href="#sec2-2">2.2&nbsp;&nbsp;The agent fleet — 20 cores, 3 wired</a></li>
+    <li class="l2"><a href="#sec2-3">2.3&nbsp;&nbsp;Policy enforcement — 44 rules</a></li>
+    <li><a href="#sec3">3&nbsp;&nbsp;Architecture and technology</a></li>
+    <li><a href="#sec4">4&nbsp;&nbsp;Release journey — how we got here</a></li>
+    <li><a href="#sec5">5&nbsp;&nbsp;Verification evidence — what was proven</a></li>
+    <li><a href="#sec6">6&nbsp;&nbsp;Security, privacy and compliance posture</a></li>
+    <li><a href="#sec7">7&nbsp;&nbsp;Known limitations and residual risks</a></li>
+    <li><a href="#sec8">8&nbsp;&nbsp;Current release state and artifacts</a></li>
+    <li><a href="#sec9">9&nbsp;&nbsp;Operator runbook — what happens next</a></li>
+    <li><a href="#sec10">10&nbsp;&nbsp;Go / No-Go and final verdict</a></li>
+    <li><a href="#appA">Appendix A&nbsp;&nbsp;Key file map</a></li>
+    <li><a href="#appB">Appendix B&nbsp;&nbsp;Command reference</a></li>
+  </ul>
+</div>
+
+<!-- ================= 1. EXECUTIVE SUMMARY ================= -->
+<h1 id="sec1" class="first">1&nbsp;&nbsp;Executive summary</h1>
+
+<p><b>Northstar SellerOS</b> is a bilingual (English / French-Canadian), Canada-native operating system for real-estate sellers: a multi-tenant web application in which autonomous agent "cores" draft valuations, strategies, offers and transaction plans — but every externally visible action passes through policy packs, an append-only hash-chained audit log, and mandatory human approval gates. The demonstration tenant is the deliberately fictional <b>Harbourline Realty</b> brokerage; no real personal data exists anywhere in the delivery.</p>
+
+<p>As of <b>2026-08-03</b> the release is <b>frozen</b> at annotated git tag <code>v1.0.0-pilot</code> (commit <code>c63286a</code>). Every gate that can be executed without owner-only platform actions is green: 253/253 automated tests (twice consecutively), 131/131 golden + 85/85 simulator evaluations, clean typecheck/lint, clean secret / fictional-data / lockfile-host / whole-delivery scans, zero production dependency vulnerabilities, migrations proven idempotent on the actual hosted TiDB database, and a 7/7 smoke battery run against the production build backed by that same database.</p>
+
+<div class="vbox">
+  <span class="vt">The one-sentence verdict.</span>
+  Demo Pilot Deployable — suitable only for supervised Ontario testing using unmistakably fictional data, human approval gates, and mock integrations — <b>GATED: WAITING_FOR_OWNER_ROTATION</b> (the owner must rotate two credentials in the platform console). <b>Not production-ready.</b>
+</div>
+
+<p><b>Three owner-only actions remain</b> — the agent cannot perform them and has not pretended to: (1) rotate <code>DATABASE_URL</code> and <code>APP_SECRET</code> in the platform console; (2) push the repository to the owner's git host, which turns on hosted CI automatically; (3) press the platform's publish button, then re-run the committed smoke battery against the public URL. Section 9 is the runbook for exactly these steps.</p>
+
+<p><b>Two engineering findings are worth a colleague's attention.</b> First, a concurrency defect class (<i>read-max-then-insert</i> sequence allocation under a unique index) was found by stress testing — not by luck — in both the workflow-event log (lost no rows in tests but carried the race) and the audit log (measurably lost 159 of 400 rows under 5-way concurrency before the fix; zero after). Second, validation against the intended hosted database revealed the provisioned schema had been created out-of-band with an empty migration journal; this was detected, drift-checked, and repaired with byte-exact baseline journaling, then re-proven. Both are documented with raw numbers in Sections 4–6.</p>
+
+<!-- ================= 2. WHAT THE SYSTEM IS ================= -->
+<h1 id="sec2">2&nbsp;&nbsp;What the system is</h1>
+
+<h2>2.1&nbsp;&nbsp;Product scope</h2>
+<p>Northstar SellerOS targets Canadian brokerages, with Ontario as the pilot jurisdiction. It is bilingual by construction (EN / fr-CA), multi-tenant (brokerage → team → agent hierarchy with hard tenant isolation), and compliance-forward: consent records, a suppression list, CASL-style send blocking, and policy-gated autonomy levels are first-class schema objects, not afterthoughts. The pilot scope is the seller side of the transaction: property dossiers, comparables and valuations, pricing strategy, offer intake and comparison, and transaction task coordination.</p>
+
+<p>Everything demonstrable today runs on the seeded fictional brokerage <b>Harbourline Realty</b> (1 tenant, 4 users at validation time). A standing consent order forbids the use of any real property owner's data; historical artifacts that contained real identifiers were quarantined out of the delivery (Section 6.2).</p>
+
+<h2 id="sec2-2">2.2&nbsp;&nbsp;The agent fleet — 20 cores, 3 wired</h2>
+<p>The system is specified as <b>20 agent cores</b>. Exactly <b>3 are wired</b> end-to-end into the application; the remaining 17 exist as specified-but-unwired cores. This is stated plainly in every release document — the demo must never be represented as a 20-agent system in operation.</p>
+
+<table class="tl">
+  <caption data-label="Table 1">Agent fleet status (verified against code, not documentation)</caption>
+  <thead><tr><th style="width:34%">Core</th><th style="width:14%">Status</th><th>What it does in the pilot</th></tr></thead>
+  <tbody>
+    <tr><td>ConversationalLead</td><td><b>Wired</b></td><td>Lead intake conversation, consent capture, dossier bootstrap</td></tr>
+    <tr><td>OfferExtraction</td><td><b>Wired</b></td><td>Parses incoming offers into structured terms for comparison</td></tr>
+    <tr><td>TransactionCoordinator</td><td><b>Wired</b></td><td>Generates and tracks the transaction task plan</td></tr>
+    <tr><td>17 further cores</td><td>Unwired</td><td>Specified in design; not connected to the running application — roadmap, not demo</td></tr>
+  </tbody>
+</table>
+
+<p>Model calls in this release run against a <b>deterministic mock provider</b> by default; no live model or third-party integration is exercised. External integrations (e.g., messaging sends) are mocks guarded by the outbox and policy layer. Nothing in the release claims otherwise.</p>
+
+<h2 id="sec2-3">2.3&nbsp;&nbsp;Policy enforcement — 44 rules</h2>
+<p>A versioned policy pack (44 rule IDs) mediates agent action: <b>17 rules enforced</b> in code, <b>12 partially enforced</b>, <b>15 declared</b> (documented, not yet executable). The flagship demonstrable rule is <b>CASL-03</b>: the seeded demo shows an SMS send to a contact with expired consent being <i>blocked</i>, with the block decision itself recorded in the audit chain. Approval gates are single-use: a concurrent double-decide race was stress-tested (10 rounds, single winner) and an approval, once consumed, cannot be replayed.</p>
+
+<h2>2.4&nbsp;&nbsp;Autonomy model</h2>
+<p>Tenants carry an autonomy ceiling (e.g., A2) and per-action autonomy levels. Anything above the ceiling, anything touching an external side effect, and anything flagged by policy lands in the <b>approvals</b> queue for a human decision with an expiry. The system is therefore "autonomous" only inside a fenced yard — the fence being the point of the pilot.</p>
+
+<!-- ================= 3. ARCHITECTURE ================= -->
+<h1 id="sec3">3&nbsp;&nbsp;Architecture and technology</h1>
+
+<h2>3.1&nbsp;&nbsp;Stack</h2>
+<table class="tl">
+  <caption data-label="Table 2">Technology stack and pinned baselines</caption>
+  <thead><tr><th style="width:24%">Layer</th><th style="width:40%">Technology</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Runtime</td><td>Node.js ≥ 22.22.0, npm ≥ 10</td><td>Enforced via <code>engines</code>; react-router 8.3.0 requires ≥ 22.22.0 — the pin is load-bearing</td></tr>
+    <tr><td>Frontend</td><td>React 19 + Vite + TypeScript, Tailwind + shadcn/ui</td><td>Built to <code>dist/public/</code></td></tr>
+    <tr><td>API server</td><td>Hono + tRPC 11</td><td>Bundled by esbuild to <code>dist/boot.js</code>; externals are Node builtins + <code>mysql2</code> 3.23.2 only</td></tr>
+    <tr><td>Data</td><td>Drizzle ORM; MySQL 8-compatible / TiDB</td><td>Hosted target validated on TiDB v8.5.3-serverless; 32 application tables + migration journal (33 total), 60 foreign keys</td></tr>
+    <tr><td>Auth</td><td>Kimi OAuth, JWT HS256 sessions</td><td><code>APP_SECRET</code> doubles as the JWT signing key — rotation invalidates all sessions (desired)</td></tr>
+    <tr><td>Testing</td><td>Vitest (253 tests incl. DB-backed suites), golden + simulator eval harnesses</td><td>Concurrency regression tests cover both fixed race sites</td></tr>
+    <tr><td>Migrations</td><td>Committed versioned migrations via <code>scripts/db-migrate.mjs</code></td><td><code>db:push</code> is prohibited on TiDB (truncate-prompt hazard) — enforced by CI design and docs</td></tr>
+  </tbody>
+</table>
+
+<h2>3.2&nbsp;&nbsp;Runtime topology</h2>
+<div class="mermaid">
+flowchart LR
+    A[Browser — React 19 SPA] --> B[Hono + tRPC 11 server]
+    B --> C[(TiDB / MySQL 8 via Drizzle)]
+    B --> D[Kimi OAuth — JWT HS256]
+    B --> E[Policy packs — 44 rules]
+    E --> F[Approvals queue — human gate]
+    B --> G[Outbox drainer — no duplicate sends]
+    B --> H[audit_log — hash-chained, append-only]
+</div>
+<p class="small">Figure 1 — request path. Every mutating route is authenticated (401 unauthenticated), tenant-scoped, policy-checked, and audit-chained; side effects drain through the outbox.</p>
+
+<h2>3.3&nbsp;&nbsp;Integrity mechanisms a colleague should know</h2>
+<ul>
+  <li><b>Hash-chained audit log.</b> Each <code>audit_log</code> row chains <code>prevHash → hash</code> over canonical fields, per tenant, with a per-tenant monotonic <code>seq</code> under the unique constraint <code>audit_tenant_seq(tenantId, seq)</code>. <code>verifyAuditChain()</code> re-validates the chain; the smoke battery runs it against live data.</li>
+  <li><b>Tenant isolation.</b> 27 dedicated cross-tenant escape tests (<code>tenantEscape.test.ts</code>) run inside the full suite; smoke item 8 re-verifies isolation on staging data.</li>
+  <li><b>Outbox idempotency.</b> Sends carry <code>(tenantId, action, idempotencyKey)</code> uniqueness; a SIGTERM → reboot cycle was proven to produce zero duplicate sends (outbox 2 → 2).</li>
+  <li><b>Single-use approvals.</b> Concurrent double-decide resolves to exactly one winner; consumed approvals cannot be replayed (6 replay-race tests).</li>
+</ul>
+
+<h2>3.4&nbsp;&nbsp;Build and run</h2>
+<pre><code>npm ci                  # 1,143 packages, 0 vulnerabilities, public-registry-only lockfile
+npm run build           # vite build (frontend) + esbuild api/boot.ts → dist/boot.js
+npm start               # NODE_ENV=production node dist/boot.js  (PORT env)
+node scripts/smoke.mjs --base &lt;url&gt;   # committed 7-check smoke battery, any target</code></pre>
+
+<!-- ================= 4. RELEASE JOURNEY ================= -->
+<h1 id="sec4">4&nbsp;&nbsp;Release journey — how we got here</h1>
+
+<p>The release went through two engineering waves plus a final verification-and-freeze pass, each driven by independent audit rather than self-attestation. The through-line of the project rule: <i>tests and gates may not be weakened to manufacture green results; where evidence and documentation disagree, the evidence wins.</i></p>
+
+<table class="tl">
+  <caption data-label="Table 3">Release timeline (all 2026-08-03, commits on master)</caption>
+  <thead><tr><th style="width:16%">Phase</th><th style="width:14%">Commit</th><th>What happened</th></tr></thead>
+  <tbody>
+    <tr><td>Wave 1 — release-lead mandate</td><td><code>8e8868a</code></td><td>P0 credential-incident containment, data decontamination, false-green eval fix; clean release/security/db+CI/docs work; staging smoke 14/14; 12 release deliverables produced</td></tr>
+    <tr><td>Independent audit → STOP order</td><td>—</td><td>Clean-room audit confirmed strong core code but found 6 release blockers: private-registry lockfile URLs, banned identifiers in handoff docs, an overclaiming "production-grade" handoff, rotation marked internal instead of owner-external, CI gaps (Node 20, db:push, no evals), and no hosted CI run</td></tr>
+    <tr><td>Wave 2 — audit remediation</td><td><code>f3e19ac</code></td><td>Lockfile normalized to npmjs-only (707 URLs) + CI-blocking lockfile-host gate; Node baseline raised to ≥ 22.22.0; CI switched db:push → migration-proof and gained an evals step; truthful public handoff (3/20 wired, mocks, not production-ready); whole-delivery scan with no exemptions; canonical ZIP rebuilt with manifest + SHA-256</td></tr>
+    <tr><td>Workflow race fix</td><td><code>2e6b579</code></td><td>Stress testing exposed the read-max-then-insert race in <code>appendWorkflowEvent</code>; fixed with retry budget 10 + jittered backoff + regression test; root cause documented (retries absorb, not remove, the race window)</td></tr>
+    <tr><td>Verifier pass</td><td>version <code>0eb6c79</code></td><td>Independent verifier: 17/17 gates + 14/14 smoke from a brand-new extraction of the shipped ZIP</td></tr>
+    <tr><td>Audit-log race found + fixed</td><td><code>4e1414b</code></td><td>Final review reproduced the same race class in <code>appendAudit</code>: <b>159/400 rows silently lost</b> at 5-way concurrency. Same minimal fix pattern + regression test → 0/400 lost; full battery re-run green (253/253 ×2)</td></tr>
+    <tr><td>Hosted-DB validation + freeze</td><td><code>c63286a</code>, tag <code>v1.0.0-pilot</code></td><td>Validation on the real TiDB exposed an empty migration journal (schema created out-of-band); drift-checked, baseline-journaled, re-proven idempotent. Reusable smoke battery committed and proven 7/7 on the TiDB-backed production build. Release frozen and tagged</td></tr>
+  </tbody>
+</table>
+
+<p>Two scratch-file hygiene issues were also caught by the final gate runs and corrected at freeze (a leaked stress harness <code>race-stress.ts</code> was removed from the tracked tree and the ZIP rebuilt). They are disclosed here because the handoff standard is disclosure, not cosmetics.</p>
+
+<!-- ================= 5. VERIFICATION EVIDENCE ================= -->
+<h1 id="sec5">5&nbsp;&nbsp;Verification evidence — what was proven</h1>
+
+<h2>5.1&nbsp;&nbsp;The gate wall (all executed, none waived)</h2>
+<table class="tl">
+  <caption data-label="Table 4">Gate results at freeze (tag v1.0.0-pilot unless noted)</caption>
+  <thead><tr><th style="width:38%">Gate</th><th style="width:16%">Result</th><th>Evidence location</th></tr></thead>
+  <tbody>
+    <tr><td>Install reproducibility (<code>npm ci</code>)</td><td>1,143 pkgs, 0 vulns</td><td>release/DEP_AUDIT.txt (6 moderate dev-only advisories disclosed)</td></tr>
+    <tr><td>Typecheck (<code>tsc -b</code> + <code>tsc --noEmit</code>)</td><td>clean</td><td>release/GATE_TABLE.md</td></tr>
+    <tr><td>Lint (<code>eslint .</code>)</td><td>0 errors, 5 pre-existing warnings</td><td>release/GATE_TABLE.md</td></tr>
+    <tr><td>Unit + DB-backed tests (<code>vitest run</code>)</td><td><b>253/253, twice consecutively</b> (36 files)</td><td>release/GATE_TABLE.md</td></tr>
+    <tr><td>Evals — golden scenarios</td><td>131/131</td><td>release/GATE_TABLE.md</td></tr>
+    <tr><td>Evals — simulator</td><td>85/85</td><td>release/GATE_TABLE.md</td></tr>
+    <tr><td>Committed-secret scan</td><td>clean (298 tracked files)</td><td>release/ZERO_SECRET_SCAN.txt</td></tr>
+    <tr><td>Fictional-data gate (banned-identifier scan)</td><td>clean</td><td>release/FICTIONAL_DATA_SCAN.txt</td></tr>
+    <tr><td>Lockfile-host gate</td><td>707/707 URLs on registry.npmjs.org</td><td>CI step + <code>npm run gate:lockfile</code></td></tr>
+    <tr><td>Whole-delivery scan (incl. nested ZIP)</td><td>clean — 331 files, 1 archive</td><td>release/FICTIONAL_DATA_SCAN.txt (freeze re-run)</td></tr>
+    <tr><td>Production dependency audit</td><td>0 high/critical</td><td>release/DEP_AUDIT.txt</td></tr>
+  </tbody>
+</table>
+
+<h2>5.2&nbsp;&nbsp;Concurrency stress evidence (the audit-log race)</h2>
+<p>The defect was reproduced from a clean checkout before any fix was attempted, and the fix was accepted only on measured before/after evidence — 5-way concurrent audit appends × 80 rounds against a fresh migrated database:</p>
+
+<figure id="fig-stress">
+  <img src="stress-before-after.png" alt="Bar chart: before the fix 241 of 400 audit rows landed and 159 were silently lost; after the fix all 400 landed with zero losses">
+  <figcaption data-label="Figure 2">appendAudit stress test, before vs after commit 4e1414b. After: <span class="mono">ok=400 dupkey_escapes=0 audit_rows=400 distinct_seq=400 min_seq=1 max_seq=400</span> — a complete, gapless, chain-valid sequence.</figcaption>
+</figure>
+
+<div class="vbox warn">
+  <span class="vt">Root cause, stated honestly.</span>
+  Sequence numbers were allocated as <i>read current max, then insert max+1</i> under a unique index. Under concurrency, two writers read the same max; the loser's insert collides and — with the original budget of 3 retries — could exhaust and drop the row silently. The fix (budget 10, 5–20 ms jitter, tip re-read per attempt, only duplicate-key errors masked, loud exhaustion error) makes loss unobserved in 400/400 attempts but <b>absorbs rather than removes the race window</b>. The permanent cures — an atomic per-tenant/per-workflow sequence allocator (<code>UPDATE … last_seq+1 … RETURNING</code>) or transactional <code>SELECT … FOR UPDATE</code> — are documented roadmap items in release/RESIDUAL_RISK.md, not completed work.
+</div>
+
+<h2>5.3&nbsp;&nbsp;Hosted-database validation (on the real platform TiDB)</h2>
+<ul>
+  <li><b>Finding:</b> the provisioned database (TiDB <code>8.0.11-TiDB-v8.5.3-serverless</code>) had all 33 tables but an <b>empty migration journal</b> — the schema had been created out-of-band, so <code>db:migrate</code> failed with "table already exists". The first future migration would have collided in production.</li>
+  <li><b>Drift check before repair:</b> all 7 named unique constraints present with identical columns (including both race-guarding indexes), 60/60 foreign keys, 33/33 primary keys, spot-checked column counts — the live schema matches the committed migration, so journaling hid nothing.</li>
+  <li><b>Repair:</b> exactly one baseline journal row, byte-identical to what the Drizzle migrator itself writes (hash = SHA-256 of the migration file, timestamp = journal entry), verified against the migrator's source.</li>
+  <li><b>Proof after repair:</b> <code>db:migrate</code> → exit 0 no-op; the CI migration proof → migrate ×2 idempotent, an inserted audit row survived the second run, table count stable at 33, proof rows cleaned up and verified gone.</li>
+</ul>
+
+<h2>5.4&nbsp;&nbsp;Smoke batteries</h2>
+<table class="tl">
+  <caption data-label="Table 5">Smoke evidence</caption>
+  <thead><tr><th style="width:26%">Battery</th><th style="width:16%">Result</th><th>Target and scope</th></tr></thead>
+  <tbody>
+    <tr><td>14-item staging battery (independent verifier)</td><td>14/14</td><td>Fresh extraction of the shipped ZIP: HTTP checks, tenant isolation, blocked-CASL demo, approval single-use, restart zero-duplicate-sends, audit-chain verify, migrate/seed idempotency, graceful shutdown</td></tr>
+    <tr><td>7-check committed battery (<code>scripts/smoke.mjs</code>)</td><td>7/7</td><td>Production build on Node 22.22.0 backed by the real provisioned TiDB: app shell, tRPC ping, livez, readyz (live DB SELECT 1), 401 unauthenticated, 404, OAuth 302; plus SIGTERM graceful shutdown and outbox stability (2 → 2)</td></tr>
+  </tbody>
+</table>
+<p>Because the smoke battery is committed and takes any base URL, the owner re-runs the identical checks against the published URL after publishing — same script, same expectations (Section 9).</p>
+
+<!-- ================= 6. SECURITY ================= -->
+<h1 id="sec6">6&nbsp;&nbsp;Security, privacy and compliance posture</h1>
+
+<h2>6.1&nbsp;&nbsp;Credential incident and rotation status</h2>
+<p>During development, the live <code>DATABASE_URL</code> and <code>APP_SECRET</code> were exposed in working transcripts. Containment was executed immediately (exposure inventory, delivery scrubbing, CI secret-scan gate), but <b>rotation is an owner-only platform-console action</b> and remains outstanding. Release status is therefore pinned to <b>WAITING_FOR_OWNER_ROTATION</b> until the owner rotates both values and redeploys. This document contains no credential values; the runbook (Section 9, step 1) tells the owner how to generate and install replacements without transmitting them.</p>
+
+<p>One residual fact for the operator: the runtime working tree holds a git-ignored <code>.env</code> with the live platform values (the preview needs it). It is verified untracked and absent from the delivery ZIP; it must never be committed, zipped, or pasted.</p>
+
+<h2>6.2&nbsp;&nbsp;Consent order and data decontamination</h2>
+<p>A standing consent order forbids any use of a real property owner's house, identity, documents, contacts, or transaction. Consequences executed and verified:</p>
+<ul>
+  <li>All demo and test data is the fictional <b>Harbourline Realty</b> set; a banned-identifier gate (<code>scripts/fictional-data-gate.mjs</code>) blocks re-introduction.</li>
+  <li>Historical artifacts that contained real identifiers were quarantined to <code>internal/</code> (design drafts, a raw git diff, notes) with in-place WITHHELD markers — they are excluded from the public delivery by design.</li>
+  <li>A whole-delivery recursive scan (<code>scripts/delivery-scan.mjs</code>), including nested archives, reports zero banned identifiers across 331 files and the shipped ZIP.</li>
+</ul>
+
+<h2>6.3&nbsp;&nbsp;Supply-chain and delivery gates</h2>
+<ul>
+  <li><b>Lockfile-host gate</b> — all 707 resolved URLs point at the public npm registry; any other host fails CI.</li>
+  <li><b>Secret scan</b> — blocks private keys, non-placeholder secrets, and non-local database URLs across every tracked file.</li>
+  <li><b>Dependency audit</b> — zero high/critical in production dependencies; six moderate advisories exist in dev-only tooling and are disclosed in release/DEP_AUDIT.txt.</li>
+</ul>
+
+<h2>6.4&nbsp;&nbsp;Authentication, authorization, audit</h2>
+<p>Kimi OAuth issues JWT (HS256) sessions; unauthenticated API calls receive 401 (smoke-proven). Authorization is role- and tenant-scoped with CASL-style abilities; cross-tenant escape is covered by 27 dedicated tests. Every mutating action writes a hash-chained audit row; the chain was verified on live seeded data (<code>{"ok":true}</code>).</p>
+
+<!-- ================= 7. LIMITATIONS ================= -->
+<h1 id="sec7">7&nbsp;&nbsp;Known limitations and residual risks</h1>
+
+<table class="tl">
+  <caption data-label="Table 6">Residual risks, ranked (full dispositions in release/RESIDUAL_RISK.md)</caption>
+  <thead><tr><th style="width:12%">Severity</th><th style="width:40%">Item</th><th>Honest state</th></tr></thead>
+  <tbody>
+    <tr><td><b>High (gating)</b></td><td>Credential rotation outstanding</td><td>Owner console action; release unusable for supervised sessions until done — WAITING_FOR_OWNER_ROTATION</td></tr>
+    <tr><td>Medium</td><td>Sequence-allocation race window absorbed, not eliminated</td><td>Retry hardening proven 0/400 losses on both sites; permanent atomic allocator on roadmap</td></tr>
+    <tr><td>Medium</td><td>17 of 20 agent cores unwired; model + integrations are mocks</td><td>By-design for the pilot; must never be demoed as live autonomy</td></tr>
+    <tr><td>Medium</td><td>Hosted CI not yet running</td><td>Workflow is turnkey and validated locally step-for-step; runs automatically once the owner pushes to their git host</td></tr>
+    <tr><td>Low</td><td>CI validates migrations on mysql:8; platform runs TiDB</td><td>Mitigated for this release by direct validation on the real TiDB (Section 5.3); swap the CI service image if TiDB-specific features are ever adopted</td></tr>
+    <tr><td>Low</td><td>No down-migrations</td><td><code>0000_init</code> is additive-only; rollback means restoring a database snapshot (owner console), never hand-written down-migrations against the live audit chain</td></tr>
+    <tr><td>Low</td><td>6 moderate dev-only dependency advisories</td><td>Disclosed in release/DEP_AUDIT.txt; not reachable from production code paths</td></tr>
+  </tbody>
+</table>
+
+<p><b>Legal/compliance honesty:</b> nothing in this release constitutes legal certification, live CASL compliance sign-off, or validated live integrations. The compliance posture demonstrated is engineering-level (gates, audit chain, consent schema, blocked-send demo) and must be represented as such.</p>
+
+<!-- ================= 8. CURRENT STATE ================= -->
+<h1 id="sec8">8&nbsp;&nbsp;Current release state and artifacts</h1>
+
+<h2>8.1&nbsp;&nbsp;Release identity</h2>
+<table class="tl">
+  <caption data-label="Table 7">Frozen release identity (verify before trusting any copy)</caption>
+  <thead><tr><th style="width:30%">Item</th><th>Value</th></tr></thead>
+  <tbody>
+    <tr><td>Package</td><td><code>northstar-selleros@1.0.0-pilot</code> (private)</td></tr>
+    <tr><td>Freeze tag</td><td><code>v1.0.0-pilot</code> (annotated)</td></tr>
+    <tr><td>Commit</td><td class="mono">c63286ad5896bd83da54b4f386461cb4437a6bce</td></tr>
+    <tr><td>Canonical ZIP</td><td><code>release/northstar-selleros-source.zip</code></td></tr>
+    <tr><td>ZIP SHA-256</td><td class="mono">fc1cabe9ba7756f61181cfbb383cc0989f904d458bdcde78e98f3d4bc51601da</td></tr>
+    <tr><td>Platform preview version</td><td><code>ea827eb</code> (preview snapshot; not published)</td></tr>
+    <tr><td>Runtime baseline</td><td>Node.js ≥ 22.22.0, npm ≥ 10</td></tr>
+    <tr><td>Credential status</td><td><b>WAITING_FOR_OWNER_ROTATION</b></td></tr>
+  </tbody>
+</table>
+
+<h2>8.2&nbsp;&nbsp;Artifact map</h2>
+<table class="tl">
+  <caption data-label="Table 8">Where each piece of evidence lives</caption>
+  <thead><tr><th style="width:34%">Artifact</th><th>Contents</th></tr></thead>
+  <tbody>
+    <tr><td><code>DEPLOYMENT.md</code> (repo root, in ZIP)</td><td>Final deployment documentation: rotation runbook, hosted-DB validation record, CI stand-up, publish + post-publish smoke, rollback, go/no-go</td></tr>
+    <tr><td><code>release/MANIFEST.md</code> + <code>SHA256SUMS.txt</code></td><td>Release identity, hashes, supersession notes</td></tr>
+    <tr><td><code>release/GATE_TABLE.md</code></td><td>Exact gate outputs incl. concurrency root-cause analysis</td></tr>
+    <tr><td><code>release/SMOKE_RESULTS.md</code></td><td>14-item staging battery + deployment-target addendum (7/7)</td></tr>
+    <tr><td><code>release/ROTATION_STATUS.md</code></td><td>Incident record, containment, owner actions</td></tr>
+    <tr><td><code>release/CI_STATUS.md</code></td><td>Hosted CI = honest PENDING + workflow state + local proofs</td></tr>
+    <tr><td><code>release/RESIDUAL_RISK.md</code></td><td>Risk dispositions incl. both concurrency addenda</td></tr>
+    <tr><td><code>release/DEP_AUDIT.txt</code>, <code>ZERO_SECRET_SCAN.txt</code>, <code>FICTIONAL_DATA_SCAN.txt</code></td><td>Raw gate outputs</td></tr>
+    <tr><td><code>HANDOFF.md</code> (outer)</td><td>Truthful public handoff — 3/20 cores wired, mocks, not production-ready</td></tr>
+    <tr><td><code>internal/</code> (quarantine)</td><td>Contaminated historical artifacts, excluded from delivery</td></tr>
+  </tbody>
+</table>
+
+<!-- ================= 9. RUNBOOK ================= -->
+<h1 id="sec9">9&nbsp;&nbsp;Operator runbook — what happens next</h1>
+
+<p>Three owner actions remain, in strict order. Everything else is done.</p>
+
+<h2>Step 1 — Rotate credentials (unblocks everything)</h2>
+<ol>
+  <li>In the platform console, rotate the database credentials behind <code>DATABASE_URL</code>.</li>
+  <li>On the owner's own machine, generate a new <code>APP_SECRET</code>: <code>openssl rand -hex 32</code>. Paste it only into the platform console's secret field — never into chat, tickets, docs, or git.</li>
+  <li>Redeploy/restart from the console.</li>
+  <li>Verify: <code>node scripts/smoke.mjs --base &lt;preview-url&gt;</code> — <code>/api/readyz</code> must return <code>{"status":"ready"}</code> (proves the server reaches the database with the new URL).</li>
+  <li>Update <code>release/ROTATION_STATUS.md</code> from WAITING_FOR_OWNER_ROTATION to done.</li>
+</ol>
+
+<h2>Step 2 — Stand up hosted CI</h2>
+<ol>
+  <li>Create a private repository on the owner's git host.</li>
+  <li><code>git remote add origin &lt;repo-url&gt;</code> then <code>git push -u origin master --tags</code>.</li>
+  <li>The <code>ci</code> workflow runs automatically on push: 14 steps, no secrets required (all test constants; ephemeral mysql:8 service). Expected: install → lockfile-host gate → secret scan → fictional-data gate → typecheck ×2 → lint → migration proof → 253 tests → evals (131 + 85) → build → audit.</li>
+</ol>
+
+<h2>Step 3 — Publish, then re-smoke</h2>
+<ol>
+  <li>Publish via the platform's manual 「发布」action (never automated).</li>
+  <li>Run <code>node scripts/smoke.mjs --base https://&lt;published-url&gt;</code> — expect 7/7.</li>
+  <li>First-login check: Kimi OAuth sign-in, Harbourline Realty demo tenant loads, blocked-CASL demo behaves as documented.</li>
+</ol>
+
+<h2>Rollback</h2>
+<p>Every release state is a git tag/SHA; redeploy a previous tag from the console. The database is additive-only with no down-migrations — database rollback means restoring a pre-release snapshot (owner console responsibility).</p>
+
+<!-- ================= 10. GO/NO-GO ================= -->
+<h1 id="sec10">10&nbsp;&nbsp;Go / No-Go and final verdict</h1>
+
+<table class="tl">
+  <caption data-label="Table 9">Go / No-Go checklist</caption>
+  <thead><tr><th style="width:8%">#</th><th style="width:52%">Item</th><th>State</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Owner rotated DATABASE_URL + APP_SECRET</td><td>☐ WAITING_FOR_OWNER_ROTATION</td></tr>
+    <tr><td>2</td><td>Hosted DB validated on platform TiDB</td><td>☑ Done 2026-08-03 (journal repaired; migrate ×2 proof)</td></tr>
+    <tr><td>3</td><td>Hosted CI green on owner's git host</td><td>☐ Pending owner push (workflow turnkey)</td></tr>
+    <tr><td>4</td><td>Post-publish smoke 7/7</td><td>☐ After publish (7/7 pre-publish on TiDB-backed runtime)</td></tr>
+    <tr><td>5</td><td>Release frozen and tagged</td><td>☑ v1.0.0-pilot</td></tr>
+    <tr><td>6</td><td>Deployment documentation delivered</td><td>☑ DEPLOYMENT.md + this briefing</td></tr>
+  </tbody>
+</table>
+
+<div class="vbox">
+  <span class="vt">Final verdict.</span>
+  Northstar SellerOS v1.0.0-pilot is <b>Demo Pilot Deployable</b>: suitable only for supervised Ontario testing using unmistakably fictional data, human approval gates, and mock integrations — <b>GATED: WAITING_FOR_OWNER_ROTATION</b>. It is <b>not production-ready</b>: 17 of 20 agent cores are unwired, integrations are mocks, hosted CI awaits the owner's push, and credential rotation is outstanding. Every claim in this briefing is backed by an executable gate or a named artifact in the release package; where a claim could not be executed (owner-only actions), it is marked pending rather than asserted.
+</div>
+
+<!-- ================= APPENDIX A ================= -->
+<h1 id="appA">Appendix A&nbsp;&nbsp;Key file map</h1>
+
+<table class="tl">
+  <caption data-label="Table 10">Repository landmarks (paths relative to repo root)</caption>
+  <thead><tr><th style="width:36%">Path</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td><code>api/boot.ts</code> → <code>dist/boot.js</code></td><td>Production server entry (esbuild bundle; externals: Node builtins + mysql2)</td></tr>
+    <tr><td><code>api/audit.ts</code></td><td>Hash-chained append-only audit log; retry-hardened seq allocation (4e1414b)</td></tr>
+    <tr><td><code>api/store/drizzle.ts</code></td><td>Drizzle store; workflow-event append with the same race hardening (2e6b579)</td></tr>
+    <tr><td><code>db/migrations/0000_init.sql</code></td><td>The single committed migration — schema source of truth (32 tables, 60 FKs)</td></tr>
+    <tr><td><code>scripts/db-migrate.mjs</code> / <code>ci-migrate-proof.mjs</code></td><td>Migration runner / idempotency + audit-row-survival proof</td></tr>
+    <tr><td><code>scripts/smoke.mjs</code></td><td>Reusable 7-check smoke battery for any base URL</td></tr>
+    <tr><td><code>scripts/secret-scan.mjs</code>, <code>fictional-data-gate.mjs</code>, <code>lockfile-host-gate.mjs</code>, <code>delivery-scan.mjs</code></td><td>The four content/supply-chain gates</td></tr>
+    <tr><td><code>.github/workflows/ci.yml</code></td><td>Turnkey hosted CI (14 steps; runs on push to main/master/final-build/release-*)</td></tr>
+    <tr><td><code>evals/</code></td><td>Golden scenarios (131) + simulator (85) harnesses</td></tr>
+    <tr><td><code>.env.example</code></td><td>Complete environment template — the only env file in the delivery</td></tr>
+  </tbody>
+</table>
+
+<!-- ================= APPENDIX B ================= -->
+<h1 id="appB">Appendix B&nbsp;&nbsp;Command reference</h1>
+
+<pre><code># reproduce the environment
+git checkout v1.0.0-pilot &amp;&amp; npm ci            # Node ≥ 22.22.0
+
+# full local gate battery
+npm run check &amp;&amp; npm run lint &amp;&amp; npm test      # typecheck, lint, 253 tests
+npm run evals                                   # 131 golden + 85 simulator
+node scripts/secret-scan.mjs                    # committed-secret gate
+node scripts/fictional-data-gate.mjs            # banned-identifier gate
+npm run gate:lockfile                           # 707 npmjs-only URLs
+
+# database (never db:push against TiDB)
+npm run db:migrate                              # committed migrations, idempotent
+node scripts/ci-migrate-proof.mjs               # migrate ×2 + audit-row survival proof
+
+# build, run, smoke
+npm run build &amp;&amp; npm start                     # dist/boot.js on $PORT
+node scripts/smoke.mjs --base &lt;url&gt;            # 7/7 expected
+
+# verify a delivered ZIP
+sha256sum northstar-selleros-source.zip         # must equal fc1cabe9…60ea1 (SHA256SUMS.txt)</code></pre>
+
+<p class="small">End of briefing. Questions of fact should be checked against the artifacts in Table 8 — if this document and the evidence ever disagree, the evidence is correct and this document should be fixed.</p>
+
+</body>
+</html>

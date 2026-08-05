@@ -1,0 +1,4 @@
+# Whole-delivery fictional-data scan — freeze re-run (2026-08-03, tag v1.0.0-pilot)
+# command: node app/scripts/delivery-scan.mjs /mnt/agents/output
+# scope: entire delivery incl. nested archives (release/northstar-selleros-source.zip @ fc1cabe9…), no exemptions beyond detector files + non-delivery node_modules/.git/app
+delivery scan: clean (331 files scanned, 1 archives inspected)

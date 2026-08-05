@@ -1,0 +1,6 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Northstar SellerOS mark: four-point star, elongated top point, 2px strokes -->
+  <path d="M32 6 L37 27 L58 32 L37 37 L32 58 L27 37 L6 32 L27 27 Z"
+        stroke="#12312C" stroke-width="2" stroke-linejoin="round" fill="none"/>
+  <circle cx="32" cy="32" r="3.5" fill="#0E5A50"/>
+</svg>
